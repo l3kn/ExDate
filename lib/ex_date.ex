@@ -1,6 +1,8 @@
 defmodule ExDate do
   alias ExDate.Tokeniser
   alias ExDate.Parser
+  alias ExDate.Formatter
+
   alias :calendar, as: Cal
 
   def parse(datestring) do
@@ -16,17 +18,19 @@ defmodule ExDate do
   end
 
   def do_parse(datestring, now) do
-    result = datestring
+    {date, time, _ms} = datestring
     |> String.upcase
     |> String.to_char_list
     |> Tokeniser.tokenise([])
     |> Parser.parse(now)
     |> filter_hints
 
-    case result do
-      {date, time, _ms} -> {date, time}
-      {:error, reason} -> raise ArgumentError, message: reason
-    end
+    {date, time}
+  end
+
+  def to_iso(date) do
+    Formatter.format(:iso, date)
+    |> List.to_string
   end
 
   def filter_hints({{yr, {:month, mon}, day}, {hr, min, sec}}) do

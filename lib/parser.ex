@@ -49,6 +49,7 @@ defmodule ExDate.Parser do
   # * 2014-08-24T22:23:00-02
   # * etc.
 
+  # hh:mm:ss
   def parse([yr, s, mon, s, day, hr, ':', min, ':', sec, 'Z'], _n)
   when any_sep?(s) and year?(yr) do
     {{yr, mon, day}, {hr, min, sec}, {0}}
@@ -62,6 +63,23 @@ defmodule ExDate.Parser do
   def parse([yr, s, mon, s, day, hr, ':', min, ':', sec, '-', off | _rest], _n)
   when any_sep?(s) and year?(yr) do
     {{yr, mon, day}, {hr + off, min, sec}, {0}}
+  end
+
+  # hh:mm
+
+  def parse([yr, s, mon, s, day, hr, ':', min, 'Z'], _n)
+  when any_sep?(s) and year?(yr) do
+    {{yr, mon, day}, {hr, min, 0}, {0}}
+  end
+
+  def parse([yr, s, mon, s, day, hr, ':', min, '+', off | _rest], _n)
+  when any_sep?(s) and year?(yr) do
+    {{yr, mon, day}, {hr - off, min, 0}, {0}}
+  end
+
+  def parse([yr, s, mon, s, day, hr, ':', min, '-', off | _rest], _n)
+  when any_sep?(s) and year?(yr) do
+    {{yr, mon, day}, {hr + off, min, 0}, {0}}
   end
 
   # Date/Times 

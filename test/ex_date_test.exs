@@ -176,4 +176,11 @@ defmodule ExDateTest do
      assert {{2008,8,22}, {17,16,17}} ==
             parse("Sat 22nd of August 2008 DST", @date)
   end
+
+  test "ISO formater" do
+    source = "2007-12-24T18:12:00Z"
+    date   = parse(source, @date)
+    assert source == to_iso(date)
+  end
+
 end
