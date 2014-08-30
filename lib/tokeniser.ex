@@ -82,7 +82,8 @@ defmodule ExDate.Tokeniser do
   deletions = ['MONDAY', 'MON', 'TUESDAY', 'TUES', 'TUE', 'WEDNESDAY', 'WEDS',
                'WED', 'THURSDAY', 'THURS', 'THUR', 'THU', 'FRIDAY', 'FRI',
                'SATURDAY', 'SAT', 'SUNDAY', 'SUN',
-               'GMT', 'UTC', 'DST', ',', ' ', 'TH', 'ND', 'ST', 'OF', 'T']
+               'GMT', 'UTC', 'DST', 'EDT',
+               ',', ' ', 'TH', 'ND', 'ST', 'OF', 'T']
 
   for deletion <- deletions do
     def tokenise(unquote(deletion)++rest, acc), do: tokenise(rest, acc)
