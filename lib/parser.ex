@@ -84,7 +84,6 @@ defmodule ExDate.Parser do
 
   # Date/Times 
   # * 2014-Aug-28 10:48:35.0001 AM
-  # * 28 Aug 2014 10:48:35.0001 PM
   # * Aug/28/2014 10:48:35.0001
   # * etc.
   #TODO: Check/Implement line 169-178 of https://github.com/erlware/erlware_commons/blob/master/src/ec_date.erl
@@ -192,6 +191,7 @@ defmodule ExDate.Parser do
     {{yr, mon, day}, time, {0}}
   end
 
+
   # Date/Times Speparated combinations with word month
   # * 23/april/1999 6 PM
   # * 23/april/1999 6:25 PM
@@ -263,6 +263,20 @@ defmodule ExDate.Parser do
   def parse([day, mon, yr, hr, ':', min, ':', sec | med], _n)
   when meridian?(med) do
     {{yr, mon, day}, {hour(hr, med), min, sec}, {0}}
+  end
+
+  # With timezone offsets
+
+  def parse([day, mon, yr, hr, '+', off], _n) do
+    {{yr, mon, day}, {hr-off, 0, 0}, {0}}
+  end
+
+  def parse([day, mon, yr, hr, ':', min, '+', off], _n) do
+    {{yr, mon, day}, {hr-off, min, 0}, {0}}
+  end
+
+  def parse([day, mon, yr, hr, ':', min, ':', sec, '+', off], _n) do
+    {{yr, mon, day}, {hr - off, min, sec}, {0}}
   end
 
   def parse(_, now) do

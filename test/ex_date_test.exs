@@ -166,6 +166,8 @@ defmodule ExDateTest do
             parse("Monday 22 Aug 2008 6a", @date)
      assert {{2008,8,22},{18,35,0}} ==
             parse("Mon, 22 Aug 2008 6:35 PM", @date)
+     assert {{2014,6,3},{16,6,0}} ==
+            parse("Tue, 03 Jun 2014 16:06:00 +0000", @date)
   end
 
   test "Parse with timezone" do
