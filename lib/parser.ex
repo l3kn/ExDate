@@ -279,6 +279,18 @@ defmodule ExDate.Parser do
     {{yr, mon, day}, {hr - off, min, sec}, {0}}
   end
 
+  def parse([day, mon, yr, hr, '-', off], _n) do
+    {{yr, mon, day}, {hr+off, 0, 0}, {0}}
+  end
+
+  def parse([day, mon, yr, hr, ':', min, '-', off], _n) do
+    {{yr, mon, day}, {hr+off, min, 0}, {0}}
+  end
+
+  def parse([day, mon, yr, hr, ':', min, ':', sec, '-', off], _n) do
+    {{yr, mon, day}, {hr+off, min, sec}, {0}}
+  end
+
   def parse(_, now) do
     {:error, :bad_date}
   end
